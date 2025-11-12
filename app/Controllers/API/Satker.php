@@ -28,10 +28,15 @@ class Satker extends ResourceController
             ])
             ->first();
 
-        if (strtotime($lastUpdate->UPDATE_TIME) === strtotime($this->request->getGet('lastUpdate')))
-            return $this->respond(['data' => 'no data newer', 'UPDATE_TIME' => $lastUpdate->UPDATE_TIME]);
+        $isEqualUpdateTime=strtotime($lastUpdate->UPDATE_TIME) === strtotime($this->request->getGet('lastUpdate'));
+        $cacheData=cache('satker');
+        
+        if($isEqualUpdateTime && $cacheData) {
+            return $this->respond(['data' => $cacheData, 'UPDATE_TIME' => $lastUpdate->UPDATE_TIME]);
+        }
 
         $res = $this->model->orderBy('Unit', 'ASC')->find();
+        cache()->save('satker', $res);
         return $this->respond(['data' => $res, 'UPDATE_TIME' => $lastUpdate->UPDATE_TIME]);
     }
 }

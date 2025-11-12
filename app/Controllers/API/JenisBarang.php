@@ -20,17 +20,23 @@ class JenisBarang extends ResourceController
     public function index()
     {
         $lastUpdate = model(InfoSchemaModel::class)
-            ->select('update_time')
-            ->where([
-                'table_schema' => getenv('database.azizah.database'),
-                'table_name' => 'rekening'
+        ->select('update_time')
+        ->where([
+            'table_schema' => getenv('database.azizah.database'),
+            'table_name' => 'rekening'
             ])
             ->first();
-
-        if (strtotime($lastUpdate->UPDATE_TIME) === strtotime($this->request->getGet('lastUpdate')))
-            return $this->respond(['data' => 'no data newer', 'UPDATE_TIME' => $lastUpdate->UPDATE_TIME]);
+            
+        $isEqualUpdateTime=strtotime($lastUpdate->UPDATE_TIME) === strtotime($this->request->getGet('lastUpdate'));
+        $cacheData=cache('jenis_barang');
+        
+        if ($isEqualUpdateTime && $cacheData) {
+            return $this->respond(['data' => $cacheData, 'UPDATE_TIME' => $lastUpdate->UPDATE_TIME]);
+        }
+        //     return $this->respond(['data' => 'no data newer', 'UPDATE_TIME' => $lastUpdate->UPDATE_TIME]);
 
         $res = $this->model->where(['LEFT(kode,2)' => 15, 'inv <>' => 0])->find();
+        cache()->save('jenis_barang', $res);
         return $this->respond(['data' => $res, 'UPDATE_TIME' => $lastUpdate->UPDATE_TIME]);
     }
 }
