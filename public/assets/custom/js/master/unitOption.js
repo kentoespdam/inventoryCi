@@ -1,9 +1,8 @@
-import { Api } from "../core/api.js"
+import { Api } from "../core/api.js";
 
 const Module = {
     setOption: async () => {
         const getItem = await Api.optionDataBuilder("Satker")
-        
         let str = "";
 
         getItem.map(i => {
@@ -15,4 +14,4 @@ const Module = {
     }
 }
 
-export { Module as Units }
+export { Module as Units };

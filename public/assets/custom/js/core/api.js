@@ -102,21 +102,8 @@ const Api = {
         return res_json
     },
     optionDataBuilder: async (fUri, lItem) => {
-        let lastUpdateName = `last_update_${fUri.replace("/", "_")}`
-        let listItem = `list${fUri.replace("/", "_")}`
-        const getLastUpdate = localStorage.getItem(lastUpdateName) == undefined ?
-            null : localStorage.getItem(lastUpdateName)
-        const r = await Api.showList(`${fUri}?lastUpdate=${getLastUpdate}`)
-        
-        if (r == null) return null
-
-        if (typeof (r.data) === "object") {
-            localStorage.setItem(lastUpdateName, r.UPDATE_TIME)
-            localStorage.setItem(listItem, JSON.stringify(r.data))
-        }
-
-        const getItem = JSON.parse(localStorage.getItem(listItem))
-        return getItem
+        const res= await Api.showList(`${fUri}`)
+        return res.data
     }
 }
 
