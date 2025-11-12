@@ -42,11 +42,6 @@ const Module = {
                 columnDefs:[
                     { targets: 0, orderable: false, searchable: false, className: "dt-body-nowrap" },
                     { targets: [1,2,3,4,5,6], orderable: true, searchable: true, className: "dt-body-nowrap" },
-                    // { targets: 2, orderable: true, searchable: true, className: "dt-body-nowrap" },
-                    // { targets: 3, orderable: true, searchable: true, className: "dt-body-nowrap" },
-                    // { targets: 4, orderable: true, searchable: true, className: "dt-body-nowrap" },
-                    // { targets: 5, orderable: true, searchable: true, className: "dt-body-nowrap" },
-                    // { targets: 6, orderable: true, searchable: true, className: "dt-body-nowrap" },
                 ],
                 columns: [
                     {

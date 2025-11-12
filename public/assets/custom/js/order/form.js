@@ -68,7 +68,7 @@ const Module = {
             $('#direksi').val(direksi).trigger('change')
             Orders.init()
         }
-    },
+    }, 
     setData: {
         addDetail: (data) => {
             data.stok[0].Uraian = MainApp.escapeHtml(data.stok[0].Uraian)
