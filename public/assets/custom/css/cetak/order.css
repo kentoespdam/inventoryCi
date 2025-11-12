@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+@page {
+  margin-top: 1cm;
+  margin-bottom: 1cm;
+  margin-left: 1cm;
+  margin-right: 1cm;
+}
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table thead tr th {
+  padding: 5px;
+}
+
+table tr td {
+  padding: 0.05em;
+}
+
+table tbody tr td {
+  padding: 10px;
+  word-spacing: 0.5em;
+}
+
+p {
+  padding: 5px;
+}
+
+.atas {
+  margin-bottom: 10px;
+}
+
+.tengah {
+  margin-bottom: 10px;
+}
+
+.ttengah {
+  margin: 5px 5px 5px 10px;
+}
+
+.nama {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.garis-double {
+  border-bottom: double 3px black;
+}
+
+.garis-bawah {
+  border-bottom: solid 1px black;
+}
+
+table.detailOrder tr td {
+  padding: .25em;
+}

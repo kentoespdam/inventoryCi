@@ -1,0 +1,43 @@
+@startuml
+' scale 2
+left to right direction
+actor "Bag Persediaan" as pengguna
+
+rectangle InventoriApp{
+    pengguna--(lihat daftar stok)
+    pengguna--(buat order)
+    pengguna--(lihat daftar order)
+    pengguna--(cetak order)
+    pengguna--(hapus order)
+    pengguna--(arsip order)
+    pengguna--(lihat daftar arsip order)
+    (buat order)..>(mengelola detail order):include
+    ' (mengelola detail order)..>(lihat daftar detail order):include
+    ' (mengelola detail order)..>(tambah detail order):include
+    ' (mengelola detail order)..>(hapus detail order):include
+
+    ' (lihat daftar stok) as stok
+    ' (buat order) as order
+    ' (mengelola detail order) as detOrder
+    ' (tambah detail order) as addDet
+    ' (lihat daftar detail order) as showDet
+    ' (hapus detail order) as delDet
+    ' (liat daftar order) as cekOrder
+    ' (cetak order) as cetak
+    ' (hapus order) as hapus
+    ' (arsip order) as arsip
+    ' (lihat arsip order) as cekArsip
+}
+
+rectangle "Mengelola Detail Order" as kelDet{
+    pengguna--(lihat daftar detail order)
+    (tambah detail order)
+    (hapus detail order)
+}
+
+
+' detOrder<--(addDet) : <<include>>
+' detOrder<--(showDet) : <<include>>
+' detOrder<--(delDet) : <<include>>
+
+@enduml

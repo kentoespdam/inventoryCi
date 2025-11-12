@@ -1,0 +1,29 @@
+services:
+  # Layanan Aplikasi PHP
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    container_name: ci4-app
+    volumes:
+      - ..:/var/www/html # Mount kode proyek dari host ke container
+    networks:
+      - ci4-network
+
+  # Layanan Web Server Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: ci4-nginx
+    ports:
+      - "8080:80" # Akses aplikasi di http://localhost:8080
+    volumes:
+      - ..:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - ci4-network
+    depends_on:
+      - app
+
+networks:
+  ci4-network:
+    driver: bridge
