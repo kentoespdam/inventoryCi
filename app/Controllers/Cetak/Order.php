@@ -52,7 +52,7 @@ class Order extends BaseController
 
         $pdfConfig = ['mode' => 'utf-8', 'format' => 'A4'];
         try {
-            // $this->response->setHeader('Content-Type', 'application/pdf');
+            $this->response->setHeader('Content-Type', 'application/pdf');
             $pdf = new Mpdf($pdfConfig);
             $pdf->debug = true;
             $pdf->SetFooter('Page {PAGENO} of {nb}');
