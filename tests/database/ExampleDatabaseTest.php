@@ -14,7 +14,7 @@ final class ExampleDatabaseTest extends CIUnitTestCase
 
     protected $seed = ExampleSeeder::class;
 
-    public function testModelFindAll()
+    public function testModelFindAll(): void
     {
         $model = new ExampleModel();
 
@@ -25,29 +25,22 @@ final class ExampleDatabaseTest extends CIUnitTestCase
         $this->assertCount(3, $objects);
     }
 
-    // public function testSoftDeleteLeavesRow()
-    // {
-    //     $model = new ExampleModel();
-    //     $this->setPrivateProperty($model, 'useSoftDeletes', true);
-    //     $this->setPrivateProperty($model, 'tempUseSoftDeletes', true);
+    public function testSoftDeleteLeavesRow(): void
+    {
+        $model = new ExampleModel();
+        $this->setPrivateProperty($model, 'useSoftDeletes', true);
+        $this->setPrivateProperty($model, 'tempUseSoftDeletes', true);
 
-    //     $object = $model->first();
-    //     $model->delete($object->id);
+        /** @var stdClass $object */
+        $object = $model->first();
+        $model->delete($object->id);
 
-    //     // The model should no longer find it
-    //     $this->assertNull($model->find($object->id));
+        // The model should no longer find it
+        $this->assertNull($model->find($object->id));
 
-    //     // ... but it should still be in the database
-    //     $result = $model->builder()->where('id', $object->id)->get()->getResult();
+        // ... but it should still be in the database
+        $result = $model->builder()->where('id', $object->id)->get()->getResult();
 
-    //     $this->assertCount(1, $result);
-    // }
-
-    public function testPegawaiTest(){
-        $model=new \App\Models\Master\PegawaiModel();
-        $pegawai=$model->getPegawaiByNipam('900800456');
-
-        print_r($pegawai);
-        $this->assertCount(1, $pegawai);
+        $this->assertCount(1, $result);
     }
 }

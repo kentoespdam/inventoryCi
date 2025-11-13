@@ -75,10 +75,12 @@
         <p style="margin-bottom: 0px;">Bersama ini kami sampaikan order permintaan barang berupa :</p>
         <ul style="margin-left:-1em; margin-top:0px; margin-bottom:0px;">
             <?php
-            array_map(function ($itm) {
-                $item = (object)$itm;
-                echo "<li>" . $item->uraian . "</li>";
-            }, $data->detail);
+            foreach ($data->detail as $item) {
+                array_map(function ($itm) {
+                    $item = (object)$itm;
+                    echo "<li>" . $item->uraian . "</li>";
+                }, $item);
+            }
             ?>
         </ul>
         <p style="margin-top: 0px;">untuk menambahkan saldo pada persediaan yang telah berkurang sesuai daftar terlampir.</p>

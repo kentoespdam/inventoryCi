@@ -11,10 +11,13 @@ class Auth extends ResourceController
     use ResponseTrait;
     protected $modelName = UserModel::class;
     protected $type = "json";
+    private $session;
+    protected $request;
 
     function __construct()
     {
         $this->session = service('session');
+        $this->request = service('request');
     }
 
     public function index()
@@ -24,7 +27,8 @@ class Auth extends ResourceController
 
     public function login()
     {
-        $body = (object) $this->request->getVar();
+        $body = (object) $this->request->getPost();
+        print_r($body);
 
         $user = $this->model
             ->where([

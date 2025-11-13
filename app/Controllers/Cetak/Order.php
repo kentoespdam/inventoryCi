@@ -29,6 +29,8 @@ class Order extends BaseController
             ->join('v_jenisBarang', 't_permintaan.kode=v_jenisBarang.kode')
             ->where('t_permintaan.idOrder', $orderId)
             ->find();
+        // split resDetail's with max 6 items
+        $resDetail = array_chunk($resDetail, 6);
         $res->detail = $resDetail;
 
         return $this->buildPdf($res);
@@ -46,9 +48,12 @@ class Order extends BaseController
         $body['page_count'] = round(count($data->detail) / 6) == 0 ? 1 : round(count($data->detail) / 6);
 
         $html = view('cetak/order', (array)$body);
-        $html2 = view('cetak/detailOrder', (array)$body);
+        // $html2 = view('cetak/detailOrder', (array)$body);
+        $orderHeader= view('cetak/detailOrderKop', (array)$body);
+        $orderTable= view('cetak/detailOrderTable', (array)$body);
+        $orderFooter= view('cetak/detailOrderFooter', (array)$body);
 
-        // return $html2;
+        // return $html.$orderHeader.$orderTable.$orderFooter;
 
         $pdfConfig = ['mode' => 'utf-8', 'format' => 'A4'];
         try {
@@ -61,7 +66,9 @@ class Order extends BaseController
             $pdf->WriteHTML($html, HTMLParserMode::HTML_BODY);
             $pdf->AddPage('L', '', '', '', '', 10, 10, 10, 10);
             $pdf->WriteHTML($style, HTMLParserMode::HEADER_CSS);
-            $pdf->WriteHTML($html2, HTMLParserMode::HTML_BODY);
+            $pdf->WriteHTML($orderHeader, HTMLParserMode::HTML_BODY);
+            $pdf->WriteHTML($orderTable, HTMLParserMode::HTML_BODY);
+            $pdf->WriteHTML($orderFooter, HTMLParserMode::HTML_BODY);
             $pdf->Output();
         } catch (\Mpdf\MpdfException $e) {
             echo $e->getMessage();
