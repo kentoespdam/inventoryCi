@@ -13,6 +13,7 @@ $routes->get('/Dashboard', 'Dashboard::index', ['filter' => 'auth']);
 
 $routes->get('/Orders', 'Orders::index');
 $routes->get('/Cetak/Order/(:num)', 'Cetak\Order::index/$1');
+$routes->get('/Orders/Arsip', 'Orders::arsip');
 
 // API
 $routes->get('API/JenisBarang', 'API\JenisBarang::index');

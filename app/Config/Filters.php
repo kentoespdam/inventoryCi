@@ -12,7 +12,7 @@ use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
-use App\Filters\JwtFilter;
+// use App\Filters\JwtFilter;
 
 class Filters extends BaseFilters
 {
@@ -35,7 +35,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
-        'jwtFilter'     => JWTFilter::class,
+        // 'jwtFilter'     => JWTFilter::class,
     ];
 
     /**
@@ -55,7 +55,7 @@ class Filters extends BaseFilters
         'before' => [
             'forcehttps', // Force Global Secure Requests
             'pagecache',  // Web Page Caching
-            'jwtFilter'   // JWT Filter
+            // 'jwtFilter'   // JWT Filter
         ],
         'after' => [
             'pagecache',   // Web Page Caching

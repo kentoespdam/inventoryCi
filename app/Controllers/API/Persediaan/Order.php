@@ -2,7 +2,6 @@
 
 namespace App\Controllers\API\Persediaan;
 
-use App\Models\Master\VPegawaiModel;
 use App\Models\Persediaan\OrderModel;
 use App\Models\Persediaan\PermintaanModel;
 use CodeIgniter\API\ResponseTrait;
@@ -13,6 +12,12 @@ class Order extends ResourceController
     use ResponseTrait;
     protected $modelName = OrderModel::class;
     protected $type = "json";
+    /**
+     * Instance of the main Request object.
+     *
+     * @var CLIRequest|IncomingRequest
+     */
+    protected $request;
 
     /**
      * Return an array of resource objects, themselves in array format

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="/assets/custom/css/cetak/order.css">
+</head>
+
+<body>
+
+    <div class="printable">
+        <table class="atas">
+            <tr>
+                <td>Kepada Yth</td>
+                <td>: Direksi PERUMDAM Tirta Satria</td>
+            </tr>
+            <tr>
+                <td>Perihal</td>
+                <td>: <?php echo $data->perihal; ?></td>
+            </tr>
+        </table>
+
+
+        <table border="1" class="tengah" width="100%">
+            <thead>
+                <tr>
+                    <th>DISPOSISI</th>
+                    <th>URAIAN</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td align="justify">
+                        <p>
+                            Disampaikan dengan hormat kepada Direksi PERUMDAM Tirta Satria sehubungan dengan stok
+                            <?php
+                            $nama = array_reduce($data->detail, function ($result, $item) {
+                                if (!in_array($item->nama, $result)) array_push($result, $item->nama);
+                                return $result;
+                            }, []);
+                            array_map(function ($item) {
+                                echo $item . " ";
+                            }, $nama);
+                            ?>
+                            di gudang sudah berkurang dan ada permintaan barang baru maka dengan ini kami mengajukan permohonan order barang berupa :
+                        </p>
+                        <table class="ttengah">
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <ol>
+                                        <?php
+                                        array_map(function ($item) {
+                                            echo "<li>" . $item->uraian . "</li>";
+                                        }, $data->detail);
+                                        ?>
+                                    </ol>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <p>
+                            untuk keperluan persiapan perbaikan bagian Teknik (data terlampir). <br />
+                            Demikian untuk menjadi periksa, atas realisasi permohonan ini kami sampaikan terima kasih.
+                            <br />
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="bawah" width="100%">
+            <tr>
+                <td width="60%">&nbsp;</td>
+                <td align="center">
+                    <p>Purwokerto, <?php echo formatId($data->tgltrans); ?></p>
+                    <p>Supervisor Persediaan</p>
+                    <p>
+                        <br />
+                        ttd
+                        <br />
+                    </p>
+                    <p class="nama"><?php echo $data->nmSpv; ?></p>
+                    <p>NIPAM : <?php echo $data->spv; ?></p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
