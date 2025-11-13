@@ -1,6 +1,6 @@
 const MainApp = {
     baseUri: `${window.location.origin}`,
-    apiUri: `${window.location.origin}`,//`http://report.laptop.net`,
+    apiUri: `${window.location.origin}`,
     token: () => {
         const coki = document.cookie
         const cokiArr = coki.split("; ")
@@ -10,7 +10,6 @@ const MainApp = {
             return r
         }, [])
 
-        // if (listCoki.token === undefined) return window.location.href = "/Auth"
         return listCoki.token
     },
     formDatatoObj: frmData => {
@@ -38,9 +37,6 @@ const MainApp = {
         },
         hide: id => {
             $(`#${id}`).hide(1000)
-            // $('html, body').animate({
-            //     scrollTop: $(`#wrapper`).offset().top
-            // }, 500)
         }
     },
     formatDuit: val => {
@@ -76,27 +72,6 @@ const MainApp = {
         }
         return text.replace(/[&<>"']/g, function (m) { return escapeChar[m]; });
     },
-    // disableEnter: () => {
-    //     $('input').on('keypress', e => {
-    //         if (e.keyCode === 13) {
-    //             e.preventDefault()
-    //         }
-    //     })
-    // },
-    // loading: {
-    //     show: () => {
-    //         $('.loading_container').css('display', 'block');
-    //     },
-    //     hide: () => {
-    //         $('.loading_container').css('display', 'none');
-    //     }
-    // },
-    // Toast: Swal.mixin({
-    //     toast: true,
-    //     position: 'top-end',
-    //     showConfirmButton: false,
-    //     timer: 3000
-    // }),
     logout: () => {
         document.cookie = 'token=null;expires=Thu, 01 Jan 1970 00:00:01 GMT'
         return window.location.href = "/"
