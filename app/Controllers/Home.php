@@ -12,8 +12,8 @@ class Home extends BaseController
     
     public function index()
     {
-        if ($this->session->get("token") == null)
-            return redirect()->to('/Auth');
+        // if ($this->session->get("token") == null)
+        //     return redirect()->to(base_url('Auth'));
         return view('dashboard/index');
     }
 }
