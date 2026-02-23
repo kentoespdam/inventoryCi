@@ -43,7 +43,7 @@ class JwtFilter implements FilterInterface
 
         // print_r($path[1]);
         if ($session->get('token') == null && $path[1] != "Auth") {
-            return redirect()->to('/Auth');
+            return redirect('Auth/index');
         }
 
         // $this->cekToken($request);
