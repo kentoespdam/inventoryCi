@@ -1,5 +1,10 @@
 <table width="100%" border="0" style='font-size: 9pt; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;'>
     <tr>
+        <td colspan="3" align="right">
+            FR-PLP.GDG-01-01
+        </td>
+    </tr>
+    <tr>
         <td rowspan="6" width="140px" align="left">
             <img src="<?= $logo; ?>" style="width:120px;" />
         </td>
