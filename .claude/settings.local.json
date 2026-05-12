@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker compose *)",
+      "Bash(docker exec invci-463_devcontainer-app-1 *)",
+      "Bash(chmod +x *)",
+      "Bash(curl -sS -o /tmp/out.html -w \"HTTP %{http_code}\\\\n\" http://localhost:8080/)",
+      "Read(//tmp/**)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs"
+    ]
+  }
+}

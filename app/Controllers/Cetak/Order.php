@@ -24,7 +24,7 @@ class Order extends BaseController
 
         $res = model(OrderModel::class)->find($orderId);
         if (!$res) return $this->respondNoContent("Tidak ada Order");
-        
+
         $resDetail = model(PermintaanModel::class)
             ->join('v_jenisBarang', 't_permintaan.kode=v_jenisBarang.kode')
             ->where('t_permintaan.idOrder', $orderId)
@@ -48,7 +48,7 @@ class Order extends BaseController
         $html = view('cetak/order', (array)$body);
         $html2 = view('cetak/detailOrder', (array)$body);
 
-        // return $html2;
+        // return $html . "<br/>" . $html2;
 
         $pdfConfig = ['mode' => 'utf-8', 'format' => 'A4'];
         try {
