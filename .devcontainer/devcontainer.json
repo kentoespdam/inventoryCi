@@ -1,47 +1,42 @@
 {
-	"name": "CodeIgniter 4 Dev (PHP 8.0)",
-	// Gunakan docker-compose untuk mendefinisikan environment
-	"dockerComposeFile": "docker-compose.yml",
-	// Tentukan layanan mana yang akan digunakan VS Code
-	"service": "app",
-	// Tentukan folder kerja di dalam container
-	"workspaceFolder": "/var/www/html",
-	// Port yang akan di-forward ke host
-	"forwardPorts": [
-		8080,
-		33066
-	],
-	// Atur properti port di VS Code
-	"portsAttributes": {
-		"8080": {
-			"label": "Aplikasi Web",
-			"onAutoForward": "notify"
-		},
-		"33066": {
-			"label": "Database"
-		}
-	},
-	// Perintah yang dijalankan setelah container dibuat
-	"postCreateCommand": "composer install --no-interaction",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"patbenatar.advanced-new-file",
-				"DEVSENSE.profiler-php-vscode",
-				"Codeium.codeium",
-				"bmewburn.vscode-intelephense-client",
-				"xdebug.php-debug",
-				"ms-vscode.vscode-json",
-				"redhat.vscode-yaml",
-				"ms-azuretools.vscode-docker",
-				"eamodio.gitlens",
-				"sleistner.vscode-fileutils"
-			],
-			"settings": {
-				"php.executablePath": "/usr/local/bin/php",
-				"php.suggest.basic": false,
-				"intelephense.environment.phpVersion": "8.0.0"
-			}
-		}
-	}
+    "name": "InvCI 4.6 (CodeIgniter 4.1.8)",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/var/www/html",
+    "forwardPorts": [8080, 3306],
+    "portsAttributes": {
+        "8080": {
+            "label": "CodeIgniter App",
+            "onAutoForward": "notify"
+        },
+        "3306": {
+            "label": "MySQL",
+            "onAutoForward": "silent"
+        }
+    },
+    "postCreateCommand": "composer install --no-interaction --prefer-dist && ([ -f .env ] || cp env .env)",
+    "postStartCommand": "bash .devcontainer/start-server.sh",
+    "remoteUser": "www-data",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bmewburn.vscode-intelephense-client",
+                "xdebug.php-debug",
+                "neilbrayfield.php-docblocker",
+                "mehedidracula.php-namespace-resolver",
+                "recca0120.vscode-phpunit",
+                "mtxr.sqltools",
+                "mtxr.sqltools-driver-mysql",
+                "editorconfig.editorconfig"
+            ],
+            "settings": {
+                "php.validate.executablePath": "/usr/local/bin/php",
+                "intelephense.environment.phpVersion": "8.0.0",
+                "[php]": {
+                    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+                    "editor.tabSize": 4
+                }
+            }
+        }
+    }
 }

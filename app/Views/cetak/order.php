@@ -58,7 +58,7 @@
         </tr>
         <tr>
             <td>Lampiran</td>
-            <td>: <?= $page_count; ?> Lembar</td>
+            <td>: <?= $ceilDetail; ?> Lembar</td>
         </tr>
         <tr>
             <td>Hal</td>
@@ -73,14 +73,19 @@
     <!-- Isi -->
     <div style="margin-left:3em">
         <p style="margin-bottom: 0px;">Bersama ini kami sampaikan order permintaan barang berupa :</p>
-        <ul style="margin-left:-1em; margin-top:0px; margin-bottom:0px;">
-            <?php
-            array_map(function ($itm) {
-                $item = (object)$itm;
-                echo "<li>" . $item->uraian . "</li>";
-            }, $data->detail);
-            ?>
-        </ul>
+        <?php
+        $no = 1;
+        $startIndex = 0;
+        foreach ($paginationOrder as $index => $itemsInPage) {
+            if ($index > 0) {
+                echo "<pagebreak/>";
+            }
+            $builder = tableBuilderOrder($data->detail, $no, $startIndex, $itemsInPage);
+            echo $builder->table;
+            $no = $builder->urut;
+            $startIndex += $itemsInPage;
+        }
+        ?>
         <p style="margin-top: 0px;">untuk menambahkan saldo pada persediaan yang telah berkurang sesuai daftar terlampir.</p>
         <p style="text-align:justify;">Demikian untuk menjadi periksa, atas persetujuan dan realisasi permohonan ini kami sampaikan terima kasih.</p>
     </div>
