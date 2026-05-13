@@ -58,7 +58,7 @@
         </tr>
         <tr>
             <td>Lampiran</td>
-            <td>: <?= $page_count; ?> Lembar</td>
+            <td>: <?= $ceilDetail; ?> Lembar</td>
         </tr>
         <tr>
             <td>Hal</td>
@@ -73,42 +73,19 @@
     <!-- Isi -->
     <div style="margin-left:3em">
         <p style="margin-bottom: 0px;">Bersama ini kami sampaikan order permintaan barang berupa :</p>
-        <table class="detailOrder" border="1" style="border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <td>No</td>
-                    <td>Nama Barang</td>
-                    <td>Satuan</td>
-                    <td>Rata2 per Bulan</td>
-                    <td>Stok</td>
-                    <td>Permintaan</td>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $no = 1;
-                foreach ($data->detail as $itm) {
-                    $item = (object)$itm;
-                    $pemakaian = json_decode($item->pemakaian);
-                    $jml = array_reduce($pemakaian, function ($r, $i) {
-                        $r += $i->kurang;
-                        return $r;
-                    }, 0);
-                ?>
-                    <tr>
-                        <td><?= $no ?></td>
-                        <td nowrap='nowrap'><?= $item->uraian ?></td>
-                        <td nowrap='nowrap'><?= $item->satuan ?></td>
-                        <td align="right"><?= number_format((float)($jml / 6), 2, ',', '.') ?></td>
-                        <td align="right"><?= number_format($item->stok, 2, ",", ".") ?></td>
-                        <td align="right"><?= number_format($item->permintaan, 2, ",", ".") ?></td>
-                    </tr>
-                <?php
-                    $no++;
-                };
-                ?>
-            </tbody>
-        </table>
+        <?php
+        $no = 1;
+        $startIndex = 0;
+        foreach ($paginationOrder as $index => $itemsInPage) {
+            if ($index > 0) {
+                echo "<pagebreak/>";
+            }
+            $builder = tableBuilderOrder($data->detail, $no, $startIndex, $itemsInPage);
+            echo $builder->table;
+            $no = $builder->urut;
+            $startIndex += $itemsInPage;
+        }
+        ?>
         <p style="margin-top: 0px;">untuk menambahkan saldo pada persediaan yang telah berkurang sesuai daftar terlampir.</p>
         <p style="text-align:justify;">Demikian untuk menjadi periksa, atas persetujuan dan realisasi permohonan ini kami sampaikan terima kasih.</p>
     </div>

@@ -16,6 +16,7 @@ class Order extends BaseController
     function __construct()
     {
         helper('bulan');
+        helper('table_builder');
     }
 
     public function index($orderId = null)
@@ -37,13 +38,23 @@ class Order extends BaseController
 
     function buildPdf($data)
     {
-        $body = [
-            "data" => $data
-        ];
+        $itemCount = count($data->detail);
+        $paginationOrder = calculateOrderPagination($itemCount);
+        $paginationDetail = calculateDetailOrderPagination($itemCount);
+        $ceilOrder = count($paginationOrder);
+        $ceilDetail = count($paginationDetail);
+
         $style = file_get_contents(APPPATH . '../public/assets/custom/css/cetak/order.css');
         $logo = file_get_contents(APPPATH . '../public/assets/images/logopdam.png');
-        $body['logo'] = 'data:image/PNG;base64,' . base64_encode($logo);
-        $body['page_count'] = round(count($data->detail) / 6) == 0 ? 1 : round(count($data->detail) / 6);
+
+        $body = [
+            "data" => $data,
+            "paginationOrder" => $paginationOrder,
+            "paginationDetail" => $paginationDetail,
+            "ceilOrder" => $ceilOrder,
+            "ceilDetail" => $ceilDetail,
+            "logo" => 'data:image/PNG;base64,' . base64_encode($logo)
+        ];
 
         $html = view('cetak/order', (array)$body);
         $html2 = view('cetak/detailOrder', (array)$body);
