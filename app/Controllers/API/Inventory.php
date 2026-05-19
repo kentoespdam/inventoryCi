@@ -10,39 +10,64 @@ use CodeIgniter\RESTful\ResourceController;
 class Inventory extends ResourceController
 {
     use ResponseTrait;
+
     protected $modelName = JInventModel::class;
-    protected $type = "json";
+    protected $format    = 'json';
+
     /**
      * Return an array of resource objects, themselves in array format
      *
+     * @param string|null $unit
+     * @param string|null $kode
+     *
      * @return mixed
      */
-
     public function index($unit = null, $kode = null)
     {
-        if ($unit == null || $kode == null) return $this->respondNoContent("Hemm....");
+        if ($unit === null || $kode === null) {
+            return $this->respondNoContent('Hemm....');
+        }
+
         $data = $this->model->lastStok($unit, $kode);
-        $res = array_reduce($data, function ($r, $a) {
-            if ((int)$a->jumlah < (int)$a->Miny) {
-                array_push($r, $a);
-            }
-            return $r;
-        }, []);
-        return $this->respond(['data' => $res]);
+
+        // Filter items where current stock (jumlah) is less than minimum stock (Miny)
+        $filtered = array_values(array_filter($data, static function ($item) {
+            return (int) $item->jumlah < (int) $item->Miny;
+        }));
+
+        return $this->respond([
+            'data'    => $filtered,
+            'rawData' => $data,
+        ]);
     }
 
+    /**
+     * Return master inventory data by kode
+     *
+     * @param string|null $kode
+     *
+     * @return mixed
+     */
     public function master($kode = null)
     {
-        if ($kode == null) return $this->respondNoContent("Hemm....");
-        $data = model(AInventoryModel::class)
+        if ($kode === null) {
+            return $this->respondNoContent('Hemm....');
+        }
+
+        $inventoryModel = model(AInventoryModel::class);
+        $data = $inventoryModel
             ->where(['Kode' => $kode, 'Miny >' => 0])
             ->find();
-        if (!$data) return $this->respondNoContent('Inventory tidak ditemukan!');
-        $nData = array_reduce($data, function ($res, $item) {
+
+        if (empty($data)) {
+            return $this->respondNoContent('Inventory tidak ditemukan!');
+        }
+
+        // Sanitize Uraian by escaping double quotes
+        foreach ($data as $item) {
             $item->Uraian = str_replace('"', '&quot;', $item->Uraian);
-            array_push($res, $item);
-            return $res;
-        }, []);
-        return $this->respond(['data' => $nData]);
+        }
+
+        return $this->respond(['data' => $data]);
     }
 }
