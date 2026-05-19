@@ -24,6 +24,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: sleep infinity
+    networks:
+      - invci-networks
 
   db:
     image: mysql:8.0
@@ -42,6 +44,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - invci-networks
 
 volumes:
   db-data:
+
+networks:
+  invci-networks:
+    driver: bridge

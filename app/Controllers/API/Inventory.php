@@ -23,7 +23,9 @@ class Inventory extends ResourceController
         if ($unit == null || $kode == null) return $this->respondNoContent("Hemm....");
         $data = $this->model->lastStok($unit, $kode);
         $res = array_reduce($data, function ($r, $a) {
-            if ((int)$a->jumlah < (int)$a->Miny) array_push($r, $a);
+            if ((int)$a->jumlah < (int)$a->Miny) {
+                array_push($r, $a);
+            }
             return $r;
         }, []);
         return $this->respond(['data' => $res]);
