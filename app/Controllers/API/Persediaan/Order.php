@@ -2,7 +2,6 @@
 
 namespace App\Controllers\API\Persediaan;
 
-use App\Models\Master\VPegawaiModel;
 use App\Models\Persediaan\OrderModel;
 use App\Models\Persediaan\PermintaanModel;
 use CodeIgniter\API\ResponseTrait;

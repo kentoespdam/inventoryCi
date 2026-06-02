@@ -1,11 +1,10 @@
 import { Api } from "../core/api.js"
 
 const Module = {
-    setOptions: async () => {
+    setOptions: async (pegawai) => {
         let str = ``
-        const res = await Api.showList('Pegawai/manager')
-        res.data.map(i => {
-            if (i.org_code == 'BA9') str += `<option value="${i.nipam}">${i.nama}</option>`
+        pegawai.data.map(item => {
+            if (item.pos_level == 4) str += `<option value="${item.nipam}">${item.nama} - (${item.jabatan})</option>`
         })
         $('#manager').append(str)
     }

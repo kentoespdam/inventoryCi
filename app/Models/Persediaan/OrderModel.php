@@ -18,7 +18,6 @@ class OrderModel extends Model
     protected $allowedFields    = [
         'tgltrans',
         'perihal',
-        'lewat',
         'nomor',
         'sifat',
         'spv',
@@ -62,89 +61,90 @@ class OrderModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function findPage(Array $request){
-        $params=$this->requestHandler($request);
+    public function findPage(array $request)
+    {
+        $params = $this->requestHandler($request);
         $builder = $this->builder();
         $filteredCountBuilder = $this->db->table($this->table);
         if (count($params->queryData) > 0) {
             $builder = $builder->orLike($params->queryData);
             $filteredCountBuilder = $filteredCountBuilder->orLike($params->queryData);
         }
-        if(isset($params->order)){
+        if (isset($params->order)) {
             $builder = $builder->orderBy($params->order->column, $params->order->dir);
         }
         $data = $builder->limit($params->limit, $params->offset)->get()->getResult();
-        $filteredCount=$filteredCountBuilder->countAllResults();
+        $filteredCount = $filteredCountBuilder->countAllResults();
         $recordTotal = $this->countAllResults();
         return [
-            'draw' => $params->draw, 
-            'recordsTotal' => $recordTotal, 
-            'recordsFiltered' => $filteredCount ?? $recordTotal, 
+            'draw' => $params->draw,
+            'recordsTotal' => $recordTotal,
+            'recordsFiltered' => $filteredCount ?? $recordTotal,
             'data' => $data
         ];
         // return $params;
     }
 
-    private function requestHandler(Array $request){
+    private function requestHandler(array $request)
+    {
         $draw = $request['draw'];
         $limit = $request['length'];
         $offset = $request['start'];
         $query = $request['search']['value'];
         $orderColumn = $request['order'][0];
-        $columns=$request['columns'];
+        $columns = $request['columns'];
 
-        $queryData=[];
-        if($query!=""){
-            for($i=0; $i<count($columns); $i++){
-                if($columns[$i]['searchable']=="true"){
-                    $queryData[$columns[$i]['data']]=$query;
+        $queryData = [];
+        if ($query != "") {
+            for ($i = 0; $i < count($columns); $i++) {
+                if ($columns[$i]['searchable'] == "true") {
+                    $queryData[$columns[$i]['data']] = $query;
                 };
             };
         };
 
-        
+
         return (object) [
             "draw" => $draw,
             "limit" => $limit,
             "offset" => $offset,
             "queryData" => $queryData,
-            "order"=> (object)[
+            "order" => (object)[
                 "column" => $columns[$orderColumn['column']]['data'],
-                "dir"=>$orderColumn['dir']
+                "dir" => $orderColumn['dir']
             ],
-            "columns"=>$request['columns']
+            "columns" => $request['columns']
         ];
     }
 
     public function simpanOrder($body)
-    {   
-        $pegawaiModel=model(PegawaiModel::class);
-        $created_by=$pegawaiModel->getPegawaiByNipam($body->created_by);
-        $manager=$pegawaiModel->getPegawaiByNipam($body->manager);
-        $spv=$pegawaiModel->getPegawaiByNipam($body->spv);
-        $direksi=$pegawaiModel->getPegawaiByNipam($body->direksi);
-        $data=[
-            'tgltrans'=>$body->tgltrans,
-            'perihal'=>$body->perihal,
-            'lewat'=>$body->lewat,
-            'nomor'=>$body->nomor,
-            'sifat'=>$body->sifat,
-            'spv'=>$spv->emp_code,
-            'spv_nama'=>$spv->emp_name,
-            'spv_jabatan'=>$spv->pos_name,
-            'manager'=>$manager->emp_code,
-            'manager_nama'=>$manager->emp_name,
-            'manager_jabatan'=>$manager->pos_name,
-            'direksi'=>$direksi->emp_code,
-            'direksi_nama'=>$direksi->emp_name,
-            'direksi_jabatan'=>$direksi->pos_name,
-            'keterangan'=>$body->keterangan,
-            'proses'=>0,
-            'created_by'=>$created_by->emp_code,
-            'created_by_name'=>$created_by->emp_name,
+    {
+        $pegawaiModel = model(PegawaiModel::class);
+        $created_by = $pegawaiModel->getPegawaiByNipam($body->created_by);
+        $manager = $pegawaiModel->getPegawaiByNipam($body->manager);
+        $spv = $pegawaiModel->getPegawaiByNipam($body->spv);
+        $direksi = $pegawaiModel->getPegawaiByNipam($body->direksi);
+        $data = [
+            'tgltrans' => $body->tgltrans,
+            'perihal' => $body->perihal,
+            'nomor' => $body->nomor,
+            'sifat' => $body->sifat,
+            'spv' => $spv->emp_code,
+            'spv_nama' => $spv->emp_name,
+            'spv_jabatan' => $spv->pos_name,
+            'manager' => $manager->emp_code,
+            'manager_nama' => $manager->emp_name,
+            'manager_jabatan' => $manager->pos_name,
+            'direksi' => $direksi->emp_code,
+            'direksi_nama' => $direksi->emp_name,
+            'direksi_jabatan' => $direksi->pos_name,
+            'keterangan' => $body->keterangan,
+            'proses' => 0,
+            'created_by' => $created_by->emp_code,
+            'created_by_name' => $created_by->emp_name,
         ];
 
-        $builder=$this->builder();
+        $builder = $this->builder();
         $builder->insert($data);
         return $this->db->insertID();
     }

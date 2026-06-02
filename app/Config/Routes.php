@@ -17,7 +17,7 @@ $routes->get('/Orders/Arsip', 'Orders::arsip');
 
 // API
 $routes->get('API/JenisBarang', 'API\JenisBarang::index');
-$routes->get('API/Pegawai/(:any)', 'API\Pegawai::index/$1');
+$routes->get('API/Pegawai', 'API\Pegawai::index');
 $routes->get('API/Satker', 'API\Satker::index');
 $routes->get('API/Inventory/(:any)/master', 'API\Inventory::master/$1');
 $routes->get('API/Inventory/(:any)/(:any)', 'API\Inventory::index/$1/$2');

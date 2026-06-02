@@ -1,11 +1,10 @@
 import { Api } from "../core/api.js"
 
 const Module = {
-    setOptions: async () => {
+    setOptions: async (pegawai) => {
         let str = `<option value="">--Pilih--</option>`
-        const res = await Api.showList('Pegawai/direksi')
-        res.data.map(i => {
-            str += `<option value="${i.nipam}">${i.nama}</option>`
+        pegawai.data.map(item => {
+            if ([2, 3].includes(parseInt(item.pos_level))) str += `<option value="${item.nipam}">${item.nama} - (${item.jabatan})</option>`
         })
         $('#direksi').append(str)
     }

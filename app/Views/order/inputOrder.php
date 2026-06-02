@@ -4,7 +4,7 @@
 
         <div class="form-group">
             <label for="tgltrans" class="control-label col-lg-3">Tanggal</label>
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="input-group">
                     <input type="hidden" name="created_by" id="created_by">
                     <input type="text" name="tgltrans" id="tgltrans" class="form-control" readonly required>
@@ -16,21 +16,28 @@
         </div>
 
         <div class="form-group">
-            <label for="lewat" class="control-lable col-lg-3">Nomor</label>
+            <label for="nomor" class="control-label col-lg-3">Nomor</label>
             <div class="col-lg-9">
                 <input type="text" name="nomor" id="nomor" class="form-control" placeholder="nomor surat">
             </div>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="lewat" class="control-lable col-lg-3">Lewat</label>
             <div class="col-lg-9">
                 <input type="text" name="lewat" id="lewat" class="form-control" placeholder="lewat">
             </div>
+        </div> -->
+
+        <div class="form-group">
+            <label for="manager" class="control-label col-lg-3">Lewat</label>
+            <div class="col-lg-9">
+                <select name="manager" id="manager" class="form-control select2" required></select>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="lewat" class="control-lable col-lg-3">Sifat</label>
+            <label for="sifat" class="control-label col-lg-3">Sifat</label>
             <div class="col-lg-9">
                 <!-- <input type="text" name="sifat" id="sifat" class="form-control" placeholder="sifat surat"> -->
                 <select name="sifat" id="sifat" class="form-control select2" required>
@@ -56,18 +63,13 @@
         </div>
 
         <div class="form-group">
-            <label for="spv" class="control-label col-lg-3">Supervisor</label>
+            <label for="spv" class="control-label col-lg-3">Pengorder</label>
             <div class="col-lg-9">
                 <select name="spv" id="spv" class="form-control select2" required></select>
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="manager" class="control-label col-lg-3">Manager</label>
-            <div class="col-lg-9">
-                <select name="manager" id="manager" class="form-control select2" required></select>
-            </div>
-        </div>
+
 
         <div class="form-group">
             <label for="direksi" class="control-label col-lg-3">Direksi</label>
