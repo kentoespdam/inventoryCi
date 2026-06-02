@@ -37,7 +37,6 @@ class Inventory extends ResourceController
 
         return $this->respond([
             'data'    => $filtered,
-            'rawData' => $data,
         ]);
     }
 

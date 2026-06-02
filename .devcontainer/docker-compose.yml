@@ -18,32 +18,9 @@ services:
       database.default.port: 3306
     ports:
       - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: sleep infinity
-    networks:
-      - invci-networks
-
-  db:
-    image: mysql:8.0
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: invci
-      MYSQL_USER: invci
-      MYSQL_PASSWORD: invci
-    ports:
-      - "3306:3306"
-    volumes:
-      - db-data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
     networks:
       - invci-networks
 

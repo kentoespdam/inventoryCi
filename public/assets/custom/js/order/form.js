@@ -11,7 +11,6 @@ let detailData = []
 const ttgltrans = document.getElementById('tgltrans')
 const tperihal = document.getElementById('perihal')
 const tnomor = document.getElementById('nomor')
-const tlewat = document.getElementById('lewat')
 const tsifat = document.getElementById('sifat')
 const tspv = document.getElementById('spv')
 const tmanager = document.getElementById('manager')
@@ -20,15 +19,19 @@ const tunit = document.getElementById('unit')
 const tKeterangan = document.getElementById('keterangan')
 
 const Module = {
-    init: () => {
+    init: async () => {
         if (Module.setData.getLocalStorageData()?.length > 0)
             localStorage.removeItem("detailData")
+        const pegawai = await Api.showList('Pegawai')
         $('#tgltrans').val(DateHelper.generateYmd())
         Units.setOption()
-        Spv.setOptions()
-        Mgr.setOptions()
-        Direksi.setOptions()
-        setTimeout(() => { $('.select2').select2() }, 1000)
+        Spv.setOptions(pegawai)
+        Mgr.setOptions(pegawai)
+        Direksi.setOptions(pegawai)
+        setTimeout(() => {
+            $('.select2').select2()
+            $(tdireksi).select2().trigger("change")
+        }, 1000)
         Module.setData.headerBulan()
         Module.setData.table()
         $('#created_by').val($('#sesNipam').val())
@@ -40,7 +43,6 @@ const Module = {
                 tgltrans: ttgltrans.value,
                 perihal: tperihal.value,
                 nomor: tnomor.value,
-                lewat: tlewat.value,
                 sifat: tsifat.value,
                 unit: tunit.value,
                 spv: tspv.value,
@@ -68,7 +70,7 @@ const Module = {
             $('#direksi').val(direksi).trigger('change')
             Orders.init()
         }
-    }, 
+    },
     setData: {
         addDetail: (data) => {
             data.stok[0].Uraian = MainApp.escapeHtml(data.stok[0].Uraian)

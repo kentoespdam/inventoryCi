@@ -38,11 +38,11 @@
         </tr>
         <tr>
             <td>Lewat</td>
-            <td>: <?= $data->lewat; ?></td>
+            <td>: <?= $data->manager_jabatan; ?></td>
         </tr>
         <tr>
             <td>Dari</td>
-            <td>: Manajer Perlengkapan</td>
+            <td>: <?= $data->spv_jabatan ?></td>
         </tr>
         <tr>
             <td>Tanggal</td>
@@ -92,20 +92,23 @@
     <!-- Ttd -->
     <table width="100%">
         <tr>
-            <td rowspan="5" width="50%">&nbsp;</td>
-            <td align="center"></td>
+            <td align="center" width="50%">
+                Mengetahui, <br />
+                Manajer Perlengkapan
+            </td>
+            <td align="center"><?= $data->spv_jabatan ?></td>
         </tr>
         <tr>
-            <td align="center">Manajer Perlengkapan</td>
-        </tr>
-        <tr>
+            <td align="center" style="padding-top:2em; padding-bottom: 2em;">Ttd</td>
             <td align="center" style="padding-top:2em; padding-bottom: 2em;">Ttd</td>
         </tr>
         <tr>
             <td align="center"><?= $data->manager_nama; ?></td>
+            <td align="center"><?= $data->spv_nama; ?></td>
         </tr>
         <tr>
             <td align="center">NIPAM : <?= $data->manager; ?></td>
+            <td align="center">NIPAM : <?= $data->spv; ?></td>
         </tr>
     </table>
 </div>
